@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Jarvis OS Lite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
@@ -11,27 +12,106 @@
       color: #00ffcc;
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
       height: 100vh;
     }
-    .container {
+
+    header {
+      padding: 15px;
       text-align: center;
+      border-bottom: 1px solid #222;
+      font-weight: bold;
     }
-    h1 {
-      font-size: 28px;
+
+    #chat-area {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    .message {
       margin-bottom: 10px;
     }
-    p {
-      color: #aaa;
-      font-size: 14px;
+
+    .user {
+      color: #ffffff;
+    }
+
+    .jarvis {
+      color: #00ffcc;
+    }
+
+    #input-area {
+      display: flex;
+      border-top: 1px solid #222;
+    }
+
+    input {
+      flex: 1;
+      padding: 12px;
+      background: #111;
+      border: none;
+      color: white;
+      outline: none;
+    }
+
+    button {
+      padding: 12px;
+      background: #00ffcc;
+      border: none;
+      cursor: pointer;
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>JARVIS OS</h1>
-    <p>System Ready...</p>
-  </div>
+
+<header>JARVIS OS</header>
+
+<div id="chat-area">
+  <div class="message jarvis">System Ready.</div>
+</div>
+
+<div id="input-area">
+  <input type="text" id="userInput" placeholder="Type a command..." />
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+  const chatArea = document.getElementById("chat-area");
+  const userInput = document.getElementById("userInput");
+
+  function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+
+    addMessage(text, "user");
+    processCommand(text.toLowerCase());
+    userInput.value = "";
+  }
+
+  function addMessage(text, type) {
+    const div = document.createElement("div");
+    div.classList.add("message", type);
+    div.textContent = text;
+    chatArea.appendChild(div);
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
+
+  function processCommand(command) {
+    if (command.includes("hello")) {
+      addMessage("Hello Prashant. How can I assist you?", "jarvis");
+    } 
+    else if (command.includes("time")) {
+      const now = new Date();
+      addMessage("Current time: " + now.toLocaleTimeString(), "jarvis");
+    } 
+    else {
+      addMessage("Command not recognized.", "jarvis");
+    }
+  }
+</script>
+
 </body>
 </html>
